@@ -70,7 +70,8 @@ def translate(course):
             file_path, output_path = f"{path}/{sub}", f"{path}/translated/{sub}"
             batch_translate_srt(course, file_path, output_path)
 
-    max_workers = int(os.environ.get("SLURM_CPUS_PER_TASK", 1))
+    #max_workers = int(os.environ.get("SLURM_CPUS_PER_TASK", 1))
+    max_workers = 1
     print(max_workers)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -104,7 +105,8 @@ def decipher_vids(course, language="he"):
     dir_vids = [vid.split(".")[0] for vid in dir_vids if vid.endswith(".srt")]
     vids_to_process = [vid for vid in vids if vid.split(".")[0] not in dir_vids]
 
-    num_gpus = int(os.environ.get("SLURM_GPUS_ON_NODE", 1))  
+    #num_gpus = int(os.environ.get("SLURM_GPUS_ON_NODE", 1))  
+    num_gpus = 1
     print(num_gpus)
     with multiprocessing.Pool(processes=num_gpus) as pool:
         pool.starmap(process_video, [(vid, path, output_path, language, i, num_gpus) for  i ,vid in enumerate(vids_to_process)])
@@ -158,7 +160,7 @@ def extract_mp3_from_mp4(folder):
 
 def decipher_translation_pipeline(course, language):    
     
-    #extract_mp3_from_mp4(f'data/{course}')
+    extract_mp3_from_mp4(f'data/{course}')
     decipher_vids(course, language)
 
     if language == "he":
