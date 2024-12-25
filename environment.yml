@@ -363,4 +363,3 @@ dependencies:
     - clip==1.0
     - ftfy==6.2.0
     - wcwidth==0.2.13
-prefix: /home/dcor/sigalraab/miniconda3/envs/MoMo_python3p8_torch11p8
